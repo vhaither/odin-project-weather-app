@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheather Project</title>
+    <style></style>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+    <form>
+        <div id="searchDiv">
+            <label for="searchInput"></label>
+            <input autocomplete="off" id="searchInput">
+            <div id="suggestionModal">
+                <ul id="suggestionList"></ul>
+            </div>
+        </div>
+
+        <select id="unitGroup">
+            <option value="metric">Metric (°C, km)</option>
+            <option value="us">US (°F, miles)</option>
+            <option value="uk">UK (°C, miles)</option>
+        </select>
+        <button id="searchButton" type="button">Search</button>
+
+    </form>
+    <div id="adressFound">
+
+    </div>
+    <h1>Live Weather</h1>
+
+    <div id="currentInfo">
+        <div id="currentInfoHeader">
+        </div>
+        <div id="currentInfoContent">
+            <div id="currentInfoIcon"></div>
+            <div id="currentInfoData"></div>
+        </div>
+
+    </div>
+
+    <div id="weeklyInfo">
+        <h1>5-Day Forecast</h1>
+        <div id="dailyWeatherCards"> </div>
+    </div>
+
+    <script src="./script.js"></script>
+
+</body>
+
+</html>

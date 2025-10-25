@@ -1,0 +1,264 @@
+/*START CSS RESET */
+/*1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+    margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        interpolate-size: allow-keywords;
+    }
+}
+
+body {
+    /* 4. Add accessible line-height */
+    line-height: 1.5;
+    /* 5. Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 6. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+    text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+#root,
+#__next {
+    isolation: isolate;
+}
+
+
+
+/* END CSS RESET*/
+ul {
+    padding: 0
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #212121;
+}
+
+
+form {
+    width: 100%;
+    padding: 16px;
+    margin-top: 16px;
+    position: relative;
+
+}
+
+#searchInput {
+    width: 100%;
+}
+
+#suggestionModal {
+    position: relative;
+}
+
+#suggestionList {
+    position: absolute;
+    /* removes it from the normal flow */
+    top: 100%;
+    /* places it right below the input */
+    max-height: 200px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    list-style: none;
+    border: 2px solid hwb(224 15% 80%);
+    /* optional: adds a border */
+    background: white;
+}
+
+.searchResultButton {
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    background: grey;
+    cursor: pointer;
+}
+
+.searchResultButton:hover {
+    background: #f0f0f0;
+    /* highlight on hover */
+}
+
+#searchButton,
+#unitGroup,
+#searchInput {
+    height: 32px;
+}
+
+#searchDiv {
+    width: 80%;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+}
+
+h1,
+h2,
+h3,
+p,
+button.searchResultButton {
+    color: #fff;
+}
+
+#weeklyInfo {
+    width: 100%;
+}
+
+#dailyWeatherCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+#currentInfo {
+    background-color: grey;
+    margin: 16px;
+    padding-right: 25px;
+    padding-left: 25px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-radius: 16px;
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+#currentInfoContent {
+    display: flex;
+    gap: 16px;
+
+}
+
+#currentInfoIcon {
+    flex: 1;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+#liveWeatherIcon {
+    width: 200px;
+    max-height: 150px;
+    flex: 1;
+}
+
+#currentInfoData {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+}
+
+
+.dailyCard {
+    background-color: grey;
+    margin: 16px;
+    padding-right: 25px;
+    padding-left: 25px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    border-radius: 16px;
+}
+
+
+.dailyCardContent {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+
+}
+
+.dailyCardIcon {
+    flex: 1;
+    min-width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    gap: 16px;
+}
+
+.dailyData {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    gap: 4px;
+
+}
+
+.infoBlocks {
+    background-color: rgba(0, 0, 0, 0.332);
+    border-radius: 8px;
+    padding: 8px;
+    text-align: center;
+}
+
+.dailyIcon {
+    width: 200px;
+    max-height: 150px;
+    flex: 1;
+}
+
+h1 {
+    margin-top: 16px;
+}
