@@ -1,290 +1,290 @@
-const apiKeyWeatherAPI = "a9f6d0c35cf7463d97c185107252310 ";
-const apiKeyVisualCrossing = "D5W8VDPZAFFDNTWSY2S3MW5MF";
+(function () {
+  const apiKeys = {
+    weatherAPI: "a9f6d0c35cf7463d97c185107252310",
+    visualCrossing: "D5W8VDPZAFFDNTWSY2S3MW5MF",
+  };
 
-const unitGroupInput = document.querySelector("#unitGroup");
-const searchInput = document.querySelector("#searchInput");
-const searchButton = document.querySelector("#searchButton");
-const currentInfoHeader = document.querySelector("#currentInfoHeader");
-const suggestionListElement = document.querySelector("#suggestionList");
-const currentDataDiv = document.querySelector("#currentInfoData");
-const currentIconDiv = document.querySelector("#currentInfoIcon");
-const dailyWeatherCardsDiv = document.querySelector("#dailyWeatherCards");
-const addressFoundDiv = document.querySelector("#adressFound");
+  const DOM = {
+    unitGroupInput: document.querySelector("#unitGroup"),
+    searchInput: document.querySelector("#searchInput"),
+    searchButton: document.querySelector("#searchButton"),
+    currentInfoHeader: document.querySelector("#currentInfoHeader"),
+    suggestionListElement: document.querySelector("#suggestionList"),
+    currentDataDiv: document.querySelector("#currentInfoData"),
+    currentIconDiv: document.querySelector("#currentInfoIcon"),
+    dailyWeatherCardsDiv: document.querySelector("#dailyWeatherCards"),
+    addressFoundDiv: document.querySelector("#addressFound"),
+  };
 
-searchWeather("onLoad");
+  searchWeather("onLoad");
 
-searchButton.addEventListener("click", () => searchWeather("onSearch"));
+  DOM.searchButton.addEventListener("click", () => searchWeather("onSearch"));
 
-searchInput.addEventListener("input", (search) => citySearch(search));
+  DOM.searchInput.addEventListener("input", (search) => citySearch(search));
 
-function citySearch(search) {
-  suggestionListElement.innerHTML = "";
+  function citySearch(search) {
+    DOM.suggestionListElement.innerHTML = "";
 
-  if (!search.target.value) {
-    return;
-  }
-
-  console.log(search.target.value);
-  const searchedLocation = search.target.value;
-  const apiURL =
-    "https://api.weatherapi.com/v1/search.json?key=" +
-    apiKeyWeatherAPI +
-    "&q=" +
-    searchedLocation;
-
-  fetch(apiURL, {
-    method: "GET",
-    headers: {},
-  })
-    .then((response) => response.json())
-    .then((data) => searchModal(data));
-}
-
-function searchModal(data) {
-  console.log(data);
-  data.forEach((result) => {
-    if (!result.name) {
+    if (!search.target.value) {
       return;
     }
-    const cityName = result.name;
-    const regionName = result.region ? ", " + result.region : "";
-    const countryName = result.country ? ", " + result.country : "";
-    const liElement = document.createElement("li");
-    liElement.className = "searchResult";
-    const buttonElement = document.createElement("button");
-    buttonElement.type = "button";
-    buttonElement.className = "searchResultButton";
-    buttonElement.textContent = cityName + regionName + countryName;
-    buttonElement.onclick = function (bt) {
-      searchInput.value = bt.target.textContent;
-      suggestionListElement.innerHTML = "";
-    };
-    liElement.appendChild(buttonElement);
-    suggestionListElement.appendChild(liElement);
-  });
-}
 
-function searchWeather(callType) {
-  const apiURL =
-    "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-  let searchedLocation;
-  if (callType === "onSearch" && searchInput.value) {
-    searchedLocation = searchInput.value;
-  } else if (callType === "onLoad") {
-    searchedLocation = "Barcelona";
-  } else {
-    console.log("Search Failed");
-    return;
-  }
-  const unitGroup = unitGroupInput.value;
+    const searchedLocation = search.target.value;
+    const apiURL =
+      "https://api.weatherapi.com/v1/search.json?key=" +
+      apiKeys.weatherAPI +
+      "&q=" +
+      searchedLocation;
 
-  fetch(
-    apiURL +
-      searchedLocation +
-      "?unitGroup=" +
-      unitGroup +
-      "&key=" +
-      apiKeyVisualCrossing +
-      "&iconSet=icons2" +
-      "&contentType=json",
-    {
+    fetch(apiURL, {
       method: "GET",
       headers: {},
-    }
-  )
-    .then((response) => {
-      return response.json();
     })
-    .then((response) => {
-      console.log(response);
-      updateDOM(response);
-    })
-    .catch((err) => {
-      console.error(err);
+      .then((response) => response.json())
+      .then((data) => searchModal(data));
+  }
+
+  function searchModal(data) {
+    data.forEach((result) => {
+      if (!result.name) {
+        return;
+      }
+      const cityName = result.name;
+      const regionName = result.region ? ", " + result.region : "";
+      const countryName = result.country ? ", " + result.country : "";
+      const liElement = document.createElement("li");
+      liElement.className = "searchResult";
+      const buttonElement = document.createElement("button");
+      buttonElement.type = "button";
+      buttonElement.className = "searchResultButton";
+      buttonElement.textContent = cityName + regionName + countryName;
+      buttonElement.onclick = function (bt) {
+        DOM.searchInput.value = bt.target.textContent;
+        DOM.suggestionListElement.innerHTML = "";
+      };
+      liElement.appendChild(buttonElement);
+      DOM.suggestionListElement.appendChild(liElement);
     });
-}
+  }
 
-function updateDOM(response) {
-  const unitGroup = unitGroupInput.value;
-  const units = getUnits(unitGroup);
+  function searchWeather(callType) {
+    const apiURL =
+      "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+    let searchedLocation;
+    if (callType === "onSearch" && DOM.searchInput.value) {
+      searchedLocation = DOM.searchInput.value;
+    } else if (callType === "onLoad") {
+      searchedLocation = "Barcelona";
+    } else {
+      console.error("Search Failed");
+      return;
+    }
+    const unitGroup = DOM.unitGroupInput.value;
 
-  currentDataDiv.innerHTML = "";
-  currentIconDiv.innerHTML = "";
-  dailyWeatherCardsDiv.innerHTML = "";
-  addressFoundDiv.innerHTML = "";
-  currentInfoHeader.innerHTML = "";
+    fetch(
+      apiURL +
+        searchedLocation +
+        "?unitGroup=" +
+        unitGroup +
+        "&key=" +
+        apiKeys.visualCrossing +
+        "&iconSet=icons2" +
+        "&contentType=json",
+      {
+        method: "GET",
+        headers: {},
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => {
+        updateDOM(response);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }
 
-  const address = response.resolvedAddress;
-  const currentConditions = response.currentConditions;
-  const nextDaysConditions = response.days.slice(1, 6);
+  function updateDOM(response) {
+    const unitGroup = DOM.unitGroupInput.value;
+    const units = getUnits(unitGroup);
 
-  const currentDate = new Date(response.currentConditions.datetimeEpoch * 1000);
-  const formattedCurrentDate = currentDate.toLocaleDateString("en-US", {
-    weekday: "long",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+    clearDOM();
 
-  const addressH1 = document.createElement("h1");
-  addressH1.textContent = "Results for: " + address;
+    const address = response.resolvedAddress;
+    const addressH1 = document.createElement("h1");
+    addressH1.textContent = "Results for: " + address;
+    DOM.addressFoundDiv.appendChild(addressH1);
 
-  const currentDateElement = document.createElement("h3");
-  currentDateElement.textContent = formattedCurrentDate;
+    renderCurrentWeather(response, units);
 
-  const currentTempDiv = createInfoBlock(
-    "Temperature",
-    `${currentConditions.temp} ${units.temp}`
-  );
+    render5DayForecast(response, units);
+  }
 
-  /*
-  const currentThermicSensationDiv = createInfoBlock(
-    "Thermic Sensation",
-    `${currentConditions.feelslike} ${units.temp}`
-  );
-  */
+  function getUnits(unitGroup) {
+    switch (unitGroup) {
+      case "metric":
+        return {
+          temp: "°C",
+          wind: "km/h",
+        };
+      case "us":
+        return {
+          temp: "°F",
+          wind: "mph",
+        };
+      case "uk":
+        return {
+          temp: "°C",
+          wind: "mph",
+        };
+      default:
+        return {
+          temp: "",
+          wind: "",
+        };
+    }
+  }
 
-  const currentHumiditynDiv = createInfoBlock(
-    "Humidity",
-    `${currentConditions.humidity} %`
-  );
+  function createInfoBlock(label, value) {
+    const div = document.createElement("div");
+    const title = document.createElement("h3");
+    const text = document.createElement("p");
 
-  const currentWindSpeedDiv = createInfoBlock(
-    "Wind Speed",
-    `${currentConditions.windspeed} ${units.wind}`
-  );
+    div.className = "infoBlocks";
+    title.textContent = label;
+    text.textContent = value;
 
-  /*
-  const rainProbDiv = createInfoBlock(
-    "Precipitation Probability",
-    `${currentConditions.precipprob} %`
-  );
-  */
+    div.append(title, text);
+    return div;
+  }
 
-  addressFoundDiv.appendChild(addressH1);
-  currentInfoHeader.appendChild(currentDateElement);
+  document.addEventListener("click", handleClickOutsideSuggestion);
+  const suggestionModal = document.querySelector("#suggestionModal");
+  function handleClickOutsideSuggestion(event) {
+    if (
+      !(
+        suggestionModal.contains(event.target) ||
+        DOM.searchInput.contains(event.target)
+      )
+    ) {
+      DOM.suggestionListElement.innerHTML = "";
+    }
+  }
 
-  currentDataDiv.appendChild(currentTempDiv);
-  //currentDataDiv.appendChild(currentThermicSensationDiv);
-  currentDataDiv.appendChild(currentHumiditynDiv);
-  currentDataDiv.appendChild(currentWindSpeedDiv);
-  //currentDataDiv.appendChild(rainProbDiv);
-
-  const currentWeatherDescription = document.createElement("h3");
-  currentWeatherDescription.textContent = currentConditions.conditions;
-  currentInfoHeader.appendChild(currentWeatherDescription);
-
-  const currentIcon = document.createElement("img");
-  currentIcon.id = "liveWeatherIcon";
-  currentIcon.src = `./svgs/${currentConditions.icon}.svg`;
-  currentIconDiv.appendChild(currentIcon);
-
-  nextDaysConditions.forEach((day) => {
-    const maxTemp = day.tempmax;
-    const minTemp = day.tempmin;
-    const description = day.conditions;
-
-    const date = new Date(day.datetime);
-    const monthDay = date.toLocaleDateString("en-US", {
+  function renderCurrentWeather(response, units) {
+    const currentConditions = response.currentConditions;
+    const currentDate = new Date(
+      response.currentConditions.datetimeEpoch * 1000
+    );
+    const formattedCurrentDate = currentDate.toLocaleDateString("en-US", {
       weekday: "long",
       year: "numeric",
       month: "short",
       day: "numeric",
     });
 
-    const dailyCard = document.createElement("div");
-    dailyCard.className = "dailyCard";
-    const dailyCardHeaderDiv = document.createElement("div");
-    dailyCardHeaderDiv.className = "dailyCardHeader";
-    const dailyCardContent = document.createElement("div");
-    dailyCardContent.className = "dailyCardContent";
-    const dailyIconDiv = document.createElement("div");
-    dailyIconDiv.className = "dailyCardIcon";
-    const dailyDataDiv = document.createElement("div");
-    dailyDataDiv.className = "dailyData";
+    const currentDateElement = document.createElement("h3");
+    currentDateElement.textContent = formattedCurrentDate;
 
-    dailyCardContent.append(dailyIconDiv, dailyDataDiv);
-    dailyCard.append(dailyCardHeaderDiv, dailyCardContent);
-
-    const dailyIcon = document.createElement("img");
-    dailyIcon.src = `./svgs/${day.icon}.svg`;
-    dailyIcon.className = "dailyIcon";
-
-    const maxTempElement = createInfoBlock(
-      "Max Temp",
-      `${maxTemp} ${units.temp}`
+    const currentTempDiv = createInfoBlock(
+      "Temperature",
+      `${currentConditions.temp} ${units.temp}`
     );
 
-    const minTempElement = createInfoBlock(
-      "Min Temp",
-      `${minTemp} ${units.temp}`
+    const currentHumidityDiv = createInfoBlock(
+      "Humidity",
+      `${currentConditions.humidity} %`
     );
 
-    const dateElement = document.createElement("h3");
-    dateElement.textContent = monthDay;
+    const currentWindSpeedDiv = createInfoBlock(
+      "Wind Speed",
+      `${currentConditions.windspeed} ${units.wind}`
+    );
 
-    const descriptionElement = document.createElement("h3");
-    descriptionElement.textContent = description;
+    DOM.currentInfoHeader.appendChild(currentDateElement);
+    DOM.currentDataDiv.appendChild(currentTempDiv);
+    DOM.currentDataDiv.appendChild(currentHumidityDiv);
+    DOM.currentDataDiv.appendChild(currentWindSpeedDiv);
 
-    dailyCardHeaderDiv.appendChild(dateElement);
+    const currentWeatherDescription = document.createElement("h3");
+    currentWeatherDescription.textContent = currentConditions.conditions;
+    DOM.currentInfoHeader.appendChild(currentWeatherDescription);
 
-    dailyCardHeaderDiv.appendChild(descriptionElement);
-    dailyIconDiv.appendChild(dailyIcon);
-
-    dailyDataDiv.appendChild(maxTempElement);
-    dailyDataDiv.appendChild(minTempElement);
-
-    dailyWeatherCards.appendChild(dailyCard);
-  });
-}
-
-function getUnits(unitGroup) {
-  switch (unitGroup) {
-    case "metric":
-      return {
-        temp: "°C",
-        wind: "km/h",
-      };
-    case "us":
-      return {
-        temp: "°F",
-        wind: "mph",
-      };
-    case "uk":
-      return {
-        temp: "°C",
-        wind: "mph",
-      };
-    default:
-      return {
-        temp: "",
-        wind: "",
-      };
+    const currentIcon = document.createElement("img");
+    currentIcon.id = "liveWeatherIcon";
+    currentIcon.src = `./svgs/${currentConditions.icon}.svg`;
+    DOM.currentIconDiv.appendChild(currentIcon);
   }
-}
 
-function createInfoBlock(label, value) {
-  const div = document.createElement("div");
-  const title = document.createElement("h3");
-  const text = document.createElement("p");
+  function render5DayForecast(response, units) {
+    const nextDaysConditions = response.days.slice(1, 6);
 
-  div.className = "infoBlocks";
-  title.textContent = label;
-  text.textContent = value;
+    nextDaysConditions.forEach((day) => {
+      const maxTemp = day.tempmax;
+      const minTemp = day.tempmin;
+      const description = day.conditions;
 
-  div.append(title, text);
-  return div;
-}
+      const date = new Date(day.datetime);
+      const monthDay = date.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+      });
 
-document.addEventListener("click", handleClickOutsideSuggestion);
-const suggestionModal = document.querySelector("#suggestionModal");
-function handleClickOutsideSuggestion(event) {
-  if (
-    !(
-      suggestionModal.contains(event.target) ||
-      searchInput.contains(event.target)
-    )
-  ) {
-    suggestionListElement.innerHTML = "";
+      const dailyCard = document.createElement("div");
+      dailyCard.className = "dailyCard";
+      const dailyCardHeaderDiv = document.createElement("div");
+      dailyCardHeaderDiv.className = "dailyCardHeader";
+      const dailyCardContent = document.createElement("div");
+      dailyCardContent.className = "dailyCardContent";
+      const dailyIconDiv = document.createElement("div");
+      dailyIconDiv.className = "dailyCardIcon";
+      const dailyDataDiv = document.createElement("div");
+      dailyDataDiv.className = "dailyData";
+
+      dailyCardContent.append(dailyIconDiv, dailyDataDiv);
+      dailyCard.append(dailyCardHeaderDiv, dailyCardContent);
+
+      const dailyIcon = document.createElement("img");
+      dailyIcon.src = `./svgs/${day.icon}.svg`;
+      dailyIcon.className = "dailyIcon";
+
+      const maxTempElement = createInfoBlock(
+        "Max Temp",
+        `${maxTemp} ${units.temp}`
+      );
+
+      const minTempElement = createInfoBlock(
+        "Min Temp",
+        `${minTemp} ${units.temp}`
+      );
+
+      const dateElement = document.createElement("h3");
+      dateElement.textContent = monthDay;
+
+      const descriptionElement = document.createElement("h3");
+      descriptionElement.textContent = description;
+
+      dailyCardHeaderDiv.appendChild(dateElement);
+
+      dailyCardHeaderDiv.appendChild(descriptionElement);
+      dailyIconDiv.appendChild(dailyIcon);
+
+      dailyDataDiv.appendChild(maxTempElement);
+      dailyDataDiv.appendChild(minTempElement);
+
+      DOM.dailyWeatherCardsDiv.appendChild(dailyCard);
+    });
   }
-}
+
+  function clearDOM() {
+    DOM.currentDataDiv.innerHTML = "";
+    DOM.currentIconDiv.innerHTML = "";
+    DOM.dailyWeatherCardsDiv.innerHTML = "";
+    DOM.addressFoundDiv.innerHTML = "";
+    DOM.currentInfoHeader.innerHTML = "";
+  }
+})();
